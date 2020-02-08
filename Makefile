@@ -4,13 +4,16 @@ install:
 	cargo install --path .
 
 build:
-	cargo build
+	cargo $@
 
 run:
-	cargo run
+	cargo $@
+
+check:
+	cargo $@
 
 fmt:
-	cargo fmt
+	cargo $@
 
 clean:
 	rm -rf target
