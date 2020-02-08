@@ -16,5 +16,5 @@ fmt:
 	cargo $@
 
 clean:
-	rm -rf target
+	cargo $@
 

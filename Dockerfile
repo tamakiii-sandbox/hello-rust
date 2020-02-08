@@ -22,6 +22,7 @@ RUN apk add --no-cache \
 
 RUN mkdir -p ~/.local/share/bash-completion/completions && \
     rustup completions bash >> ~/.local/share/bash-completion/completions/rustup && \
+    # rustup toolchain add nightly && \
     rustup component add rust-analysis && \
     rustup component add rust-src && \
     rustup component add rls
