@@ -3,6 +3,9 @@
 install:
 	cargo install --path .
 
+build:
+	cargo build
+
 run:
 	cargo run
 
