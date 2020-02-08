@@ -1,4 +1,4 @@
-.PHONY: init build ash bash run run/% clean
+.PHONY: init build ash bash run run/% make/% clean
 
 NAME := tamakiii-sandbox/hello-rust
 WORK := /app
@@ -12,6 +12,9 @@ init: \
 	touch $@
 	echo "ENVIRONMENT=production-pseudo" >> $@
 
+build:
+	docker build -t $(NAME) --target $(ENVIRONMENT) .
+
 run:
 	docker run --rm -it -v $(PWD):$(WORK) -w $(WORK) $(NAME) make run
 
@@ -21,8 +24,8 @@ bash: run/bash
 run/%:
 	docker run --rm -it -v $(PWD):$(WORK) -w $(WORK) $(NAME) $(@F)
 
-build:
-	docker build -t $(NAME) --target $(ENVIRONMENT) .
+make/%:
+	docker run --rm -it -v $(PWD):$(WORK) -w $(WORK) $(NAME) make $(@F)
 
 clean:
 	rm .env
