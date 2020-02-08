@@ -8,10 +8,13 @@ RUN apk add --no-cache make bash && \
 FROM production-pseudo AS development
 
 ENV PAGER=less
+ENV RUSTFLAGS -C target-feature=-crt-static
+
 RUN apk add --no-cache \
       git \
       bash-doc \
       bash-completion \
+      openssl-dev \
       man \
       man-pages \
       coreutils-doc \
@@ -26,3 +29,5 @@ RUN mkdir -p ~/.local/share/bash-completion/completions && \
     rustup component add rust-analysis && \
     rustup component add rust-src && \
     rustup component add rls
+
+RUN cargo install cargo-edit
