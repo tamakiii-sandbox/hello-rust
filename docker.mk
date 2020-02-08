@@ -3,6 +3,8 @@
 NAME := tamakiii-sandbox/hello-rust
 WORK := /app
 ENVIRONMENT := $(shell grep '^ENVIRONMENT=' .env | sed -E 's/ENVIRONMENT=//')
+CMD := bash
+VSC_NAME := vsc-hello-rust-
 
 init: \
 	.env \
@@ -26,6 +28,9 @@ run/%:
 
 make/%:
 	docker run --rm -it -v $(PWD):$(WORK) -w $(WORK) $(NAME) make $(@F)
+
+vsc:
+	docker exec -it $$(docker container ls | grep $(VSC_NAME) | awk '{ print $$1 }') $(CMD)
 
 clean:
 	rm .env
