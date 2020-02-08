@@ -1,6 +1,7 @@
 FROM rust:1.41.0-alpine3.11 AS production-pseudo
 
-RUN apk add --no-cache make
+RUN apk add --no-cache make bash && \
+    sed -i -e 's|/bin/ash|/bin/bash|' /etc/passwd
 
 # --
 
@@ -9,7 +10,8 @@ FROM production-pseudo AS development
 ENV PAGER=less
 RUN apk add --no-cache \
       git \
-      bash \
+      bash-doc \
+      bash-completion \
       man \
       man-pages \
       coreutils-doc \
@@ -19,4 +21,7 @@ RUN apk add --no-cache \
     rustup component add rustfmt
 
 RUN mkdir -p ~/.local/share/bash-completion/completions && \
-    rustup completions bash >> ~/.local/share/bash-completion/completions/rustup
+    rustup completions bash >> ~/.local/share/bash-completion/completions/rustup && \
+    rustup component add rust-analysis && \
+    rustup component add rust-src && \
+    rustup component add rls
