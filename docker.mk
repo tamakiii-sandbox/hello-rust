@@ -1,4 +1,4 @@
-.PHONY: run build ash clean
+.PHONY: init build ash bash run run/% clean
 
 NAME := tamakiii-sandbox/hello-rust
 WORK := /app
@@ -15,8 +15,11 @@ init: \
 run:
 	docker run --rm -it -v $(PWD):$(WORK) -w $(WORK) $(NAME) make run
 
-ash:
-	docker run --rm -it -v $(PWD):$(WORK) -w $(WORK) $(NAME) $@
+ash: run/ash
+bash: run/bash
+
+run/%:
+	docker run --rm -it -v $(PWD):$(WORK) -w $(WORK) $(NAME) $(@F)
 
 build:
 	docker build -t $(NAME) --target $(ENVIRONMENT) .

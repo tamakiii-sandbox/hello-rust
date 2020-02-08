@@ -7,4 +7,15 @@ RUN apk add --no-cache make
 FROM production-pseudo AS development
 
 ENV PAGER=less
-RUN apk add --no-cache man man-pages coreutils-doc cargo-doc
+RUN apk add --no-cache \
+      bash \
+      man \
+      man-pages \
+      coreutils-doc \
+      cargo-doc \
+      rust-doc \
+      && \
+    rustup component add rustfmt
+
+RUN mkdir -p ~/.local/share/bash-completion/completions && \
+    rustup completions bash >> ~/.local/share/bash-completion/completions/rustup
