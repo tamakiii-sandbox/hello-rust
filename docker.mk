@@ -1,10 +1,10 @@
 .PHONY: run build clean
 
 NAME := tamakiii-sandbox/hello-rust
-WD := /app
+WORK := /app
 
 run:
-	docker run --rm -it -v $(PWD):$(WD) -w $(WD) $(NAME) make run
+	docker run --rm -it -v $(PWD):$(WORK) -w $(WORK) $(NAME) make run
 
 build:
 	docker build -t $(NAME) .
