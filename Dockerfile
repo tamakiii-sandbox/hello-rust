@@ -8,6 +8,7 @@ FROM production-pseudo AS development
 
 ENV PAGER=less
 RUN apk add --no-cache \
+      git \
       bash \
       man \
       man-pages \
