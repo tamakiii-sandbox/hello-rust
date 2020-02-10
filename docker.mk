@@ -1,10 +1,14 @@
 .PHONY: init build ash bash run run/% make/% clean
+.DEFAULT_GOAL := help
 
 NAME := tamakiii-sandbox/hello-rust
 WORK := /app
 ENVIRONMENT := $(shell grep '^ENVIRONMENT=' .env | sed -E 's/ENVIRONMENT=//')
 CMD := bash
 VSC_NAME := vsc-hello-rust-
+
+help:
+	cat $(lastword $(MAKEFILE_LIST))
 
 init: \
 	.env \
