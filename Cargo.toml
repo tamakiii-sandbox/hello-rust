@@ -8,3 +8,5 @@ edition = "2018"
 
 [dependencies]
 rand = "0.7.3"
+hyper = "0.13.2"
+reroute = "0.4.1"
