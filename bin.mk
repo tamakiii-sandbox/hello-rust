@@ -1,22 +1,19 @@
 .PHONY: install run fmt clean
 
-BIN :=
+%/new:
+	cargo $(@F) --bin $(@D)
 
-new:
-	cargo $@ --bin $(BIN)
+%/build:
+	cargo $(@F) --bin $(@D)
 
-build:
-	cargo $@ --bin $(BIN)
+%/run:
+	cargo $(@F) --bin $(@D)
 
-run:
-	cargo $@ --bin $(BIN)
+%/check:
+	cargo $(@F) --bin $(@D)
 
-check:
-	cargo $@ --bin $(BIN)
+%/fmt:
+	cargo $(@F) --bin $(@D)
 
-fmt:
-	cargo $@ --bin $(BIN)
-
-clean:
-	cargo $@ --bin $(BIN)
-
+%/clean:
+	cargo $(@F) --bin $(@D)
