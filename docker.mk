@@ -34,7 +34,7 @@ make/%:
 	docker run --rm -it -v $(PWD):$(WORK) -w $(WORK) $(NAME) make $(@F)
 
 vsc:
-	docker exec -it $$(docker container ls | grep $(VSC_NAME) | awk '{ print $$1 }') $(CMD)
+	docker exec -it -w /workspaces/$(shell basename $(realpath $(dir $(lastword $(MAKEFILE_LIST))))) $$(docker container ls | grep $(VSC_NAME) | awk '{ print $$1 }') $(CMD)
 
 clean:
 	rm .env
