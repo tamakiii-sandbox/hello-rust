@@ -24,5 +24,5 @@ FROM production-pseudo AS development
 
 ENV RUSTFLAGS -C target-feature=-crt-static
 
-RUN apk add --no-cache bind-tools mysql-client && \
+RUN apk add --no-cache curl bind-tools mysql-client && \
     cargo install cargo-edit
