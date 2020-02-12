@@ -2,7 +2,6 @@
 
 %/new: Cargo.toml
 	touch src/$(@D).rs
-	echo "\n" >> $<
 	echo "[[bin]]" >> $<
 	echo "name = \"$(@D)\"" >> $<
 	echo "path = \"src/$(@D).rs\"" >> $<
