@@ -37,3 +37,6 @@ path = "src/ownership.rs"
 [[bin]]
 name = "ref-and-borrow"
 path = "src/ref-and-borrow.rs"
+[[bin]]
+name = "slices"
+path = "src/slices.rs"
