@@ -85,7 +85,7 @@ fn arrays() {
     ];
 
     let first = months[0];
-    let last = months[months.len()-1];
+    let last = months[months.len() - 1];
 
     println!("first: {}", first);
     println!("last: {}", last);
