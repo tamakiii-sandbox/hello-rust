@@ -8,12 +8,13 @@ RUN apt update && apt install -y --no-install-recommends make less && \
 
 FROM production-pseudo AS development
 
-RUN cargo install cargo-edit
+RUN cargo install cargo-edit cargo-inspect
 
 RUN apt update && apt install -y --no-install-recommends \
       git \
       rust-lldb \
       gdb \
+      libclang-dev \
       python3 \
       && \
     rustup toolchain add nightly && \

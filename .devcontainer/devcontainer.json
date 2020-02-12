@@ -19,6 +19,9 @@
 		"kalitaalexey.vscode-rust",
 		"rust-lang.rust",
 		"vadimcn.vscode-lldb",
+		"panicbit.cargo",
+		"cargo-inspect-vscode.cargo-inspect",
+		"bungcip.better-toml",
 		"ms-python.python"
 	],
 
