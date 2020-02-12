@@ -30,3 +30,7 @@ path = "src/functions.rs"
 [[bin]]
 name = "branches"
 path = "src/branches.rs"
+
+[[bin]]
+name = "ownership"
+path = "src/ownership.rs"
