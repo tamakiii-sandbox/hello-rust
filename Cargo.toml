@@ -26,3 +26,7 @@ path = "src/variables.rs"
 [[bin]]
 name = "functions"
 path = "src/functions.rs"
+
+[[bin]]
+name = "branches"
+path = "src/branches.rs"
