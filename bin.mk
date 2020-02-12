@@ -1,7 +1,11 @@
 .PHONY: install run fmt clean
 
-%/new:
-	cargo $(@F) --bin $(@D)
+%/new: Cargo.toml
+	touch src/$(@D).rs
+	echo "\n" >> $<
+	echo "[[bin]]" >> $<
+	echo "name = \"$(@D)\"" >> $<
+	echo "path = \"src/$(@D).rs\"" >> $<
 
 %/build:
 	cargo $(@F) --bin $(@D)
