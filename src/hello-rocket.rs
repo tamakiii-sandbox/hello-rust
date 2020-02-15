@@ -4,11 +4,13 @@
 #[macro_use]
 extern crate rocket;
 
-#[get("/")]
-fn index() -> &'static str {
-    "Hello, world"
-}
+mod models;
+mod routes;
+
+use routes::*;
 
 fn main() {
-    rocket::ignite().mount("/", routes![index]).launch();
+    rocket::ignite()
+        .mount("/", routes![index, todo, todos, todo_post])
+        .launch();
 }
