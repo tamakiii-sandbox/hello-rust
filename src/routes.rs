@@ -21,9 +21,8 @@ pub fn todo_post(todo: Json<Todo>) -> status::Created<Json<Todo>> {
 }
 
 #[get("/todo/<id>")]
-pub fn todo(id: u32) -> Json<Todo> {
-    let todo = sample_entity(id);
-    Json(todo)
+pub fn todo(id: u32) -> Todo {
+    sample_entity(id)
 }
 
 fn sample_entity(id: u32) -> Todo {
