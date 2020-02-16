@@ -8,17 +8,20 @@ RUN apt update && apt install -y --no-install-recommends make less && \
 
 FROM production-pseudo AS development
 
-RUN cargo install cargo-edit cargo-inspect cargo-rls-install
-
 RUN apt update && apt install -y --no-install-recommends \
       git \
       rust-lldb \
       gdb \
       libclang-dev \
-      python3 \
       && \
-    # https://rust-lang.github.io/rustup-components-history/
-    rustup toolchain add nightly-2020-02-14 && \
+    apt clean && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN cargo install cargo-edit cargo-inspect cargo-rls-install && \
+    cargo install --no-default-features --features ci-autoclean cargo-cache
+
+# https://rust-lang.github.io/rustup-components-history/
+RUN rustup toolchain add nightly-2020-02-14 && \
     rustup default nightly-2020-02-14 && \
     rustup component add \
       rustfmt  \
@@ -26,5 +29,4 @@ RUN apt update && apt install -y --no-install-recommends \
       rust-src \
       rls \
       && \
-    apt clean && \
-    rm -rf /var/lib/apt/lists/*
+    cargo cache --autoclean
