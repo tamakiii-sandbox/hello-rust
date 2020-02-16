@@ -19,37 +19,37 @@ serde_json = "1.0.48"
 
 # bins
 
-[[bin]]
-name = "rand"
-path = "src/rand.rs"
+# [[bin]]
+# name = "rand"
+# path = "src/rand.rs"
 
-[[bin]]
-name = "variables"
-path = "src/variables.rs"
+# [[bin]]
+# name = "variables"
+# path = "src/variables.rs"
 
-[[bin]]
-name = "functions"
-path = "src/functions.rs"
+# [[bin]]
+# name = "functions"
+# path = "src/functions.rs"
 
-[[bin]]
-name = "branches"
-path = "src/branches.rs"
+# [[bin]]
+# name = "branches"
+# path = "src/branches.rs"
 
-[[bin]]
-name = "ownership"
-path = "src/ownership.rs"
+# [[bin]]
+# name = "ownership"
+# path = "src/ownership.rs"
 
-[[bin]]
-name = "ref-and-borrow"
-path = "src/ref-and-borrow.rs"
+# [[bin]]
+# name = "ref-and-borrow"
+# path = "src/ref-and-borrow.rs"
 
-[[bin]]
-name = "slices"
-path = "src/slices.rs"
+# [[bin]]
+# name = "slices"
+# path = "src/slices.rs"
 
-[[bin]]
-name = "hello-rocket"
-path = "src/hello-rocket.rs"
-[[bin]]
-name = "rocket-requests"
-path = "src/rocket-requests.rs"
+# [[bin]]
+# name = "hello-rocket"
+# path = "src/hello-rocket.rs"
+# [[bin]]
+# name = "rocket-requests"
+# path = "src/rocket-requests.rs"
