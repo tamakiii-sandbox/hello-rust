@@ -125,6 +125,31 @@ mod template {
     }
 }
 
+mod url {
+    #[get("/person/<name>?<age>")]
+    pub fn person(name: String, age: Option<u8>) -> String {
+        format!("Hello, {} ({})", name, (match age {
+            Some(a) => a.to_string(),
+            None => "?".to_string(),
+        }))
+    }
+
+    #[get("/list")]
+    pub fn list() -> String {
+        let list = [
+            format!("{}", uri!(person: "Mike Smith", 28)),
+            format!("{}", uri!(person:        "Mike", 28)),
+            format!("{}", uri!(person: name = "Mike", age = 28)),
+            format!("{}", uri!(person: age = 28, name = "Mike")),
+            format!("{}", uri!("/api", person: name = "Mike", age = 28)),
+            format!("{}", uri!(person: "Mike", _)),
+            format!("{}", uri!(person: name = "Mike", age = _)),
+        ];
+
+        list.join("\n")
+    }
+}
+
 fn main() {
     rocket::ignite()
         .attach(Template::fairing())
@@ -133,6 +158,7 @@ fn main() {
         .mount("/responder", routes![responder::index])
         .mount("/task", routes![task::id])
         .mount("/template", routes![template::index])
+        .mount("/uri", routes![url::person, url::list])
         .launch();
 }
 
