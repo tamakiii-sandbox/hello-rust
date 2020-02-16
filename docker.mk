@@ -23,7 +23,7 @@ init: \
 	echo "ENVIRONMENT=production-pseudo" >> $@
 
 build:
-	docker build -t $(NAME) --target $(ENVIRONMENT) .
+	docker build --rm -t $(NAME) --target $(ENVIRONMENT) .
 
 run:
 	docker run --rm -it $(foreach p,$(PORTS),-p $p) $(foreach v,$(VOLUMES),-v $v) -w $(WORK) $(NAME) make run
