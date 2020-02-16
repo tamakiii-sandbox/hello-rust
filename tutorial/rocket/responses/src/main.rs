@@ -4,6 +4,8 @@
 #[macro_use]
 extern crate rocket;
 
+use rocket_contrib::templates::Template;
+
 #[get("/")]
 fn index() -> String {
     format!("Hello")
@@ -73,11 +75,64 @@ mod responder {
     }
 }
 
+mod task {
+    use rocket_contrib::json::Json;
+    // use serde::ser::{Serialize, SerializeStruct, Serializer};
+    use serde::Serialize;
+
+    #[derive(Serialize)]
+    pub struct Task {
+        id: u32,
+        name: String,
+    }
+
+    #[get("/<id>")]
+    pub fn id(id: u32) -> Json<Task> {
+        Json(Task {
+            id,
+            name: "hello".into(),
+        })
+    }
+}
+
+mod template {
+    use rocket_contrib::templates::Template;
+    use serde::Serialize;
+
+    #[derive(Serialize)]
+    struct Task {
+        id: u32,
+        name: String,
+    }
+
+    #[derive(Serialize)]
+    struct MyData {
+        tasks: Vec<Task>,
+    }
+
+    #[get("/")]
+    pub fn index() -> Template {
+        let context = MyData {
+            tasks: vec![
+                Task { id: 1, name: "hoge".to_string()},
+                Task { id: 2, name: "fuga".to_string()},
+            ]
+        };
+
+        // When your application is compiled in debug mode (without the --release flag passed to cargo), templates are automatically reloaded when they are modified on supported platforms.
+        // This means that you don't need to rebuild your application to observe template changes: simply refresh! In release builds, reloading is disabled.
+        Template::render("index", &context)
+    }
+}
+
 fn main() {
     rocket::ignite()
+        .attach(Template::fairing())
         .mount("/", routes![index])
         .mount("/id", routes![id::post, id::json])
         .mount("/responder", routes![responder::index])
+        .mount("/task", routes![task::id])
+        .mount("/template", routes![template::index])
         .launch();
 }
 

@@ -1,0 +1,10 @@
+{% extends "base" %}
+
+{% block main %}
+  <h2>hello</h2>
+  <ul>
+  {% for task in tasks %}
+    <li data-task-id="{{ task.id }}">{{ task.name }}</li>
+  {% endfor %}
+  </ul>
+{% endblock %}
