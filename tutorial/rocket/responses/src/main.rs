@@ -125,7 +125,7 @@ mod template {
     }
 }
 
-mod url {
+mod uri {
     #[get("/person/<name>?<age>")]
     pub fn person(name: String, age: Option<u8>) -> String {
         format!("Hello, {} ({})", name, (match age {
@@ -148,6 +148,47 @@ mod url {
 
         list.join("\n")
     }
+
+    use rocket::http::RawStr;
+    use rocket::request::Form;
+
+    #[derive(FromForm, UriDisplayQuery)]
+    pub struct UserDetails<'r> {
+        age: Option<usize>,
+        nickname: &'r RawStr,
+    }
+
+    #[post("/user/<id>?<details..>")]
+    pub fn add_user(id: usize, details: Form<UserDetails>) -> String {
+        format!("{} added (age={}, id={})", details.nickname, (details.age).unwrap().to_string(), id)
+    }
+}
+
+mod typed_uri {
+    use rocket::http::RawStr;
+    use rocket::http::uri::{FromUriParam, UriPart};
+    use rocket::request::Form;
+
+    pub struct UserDetails<'r> {
+        age: Option<usize>,
+        nickname: &'r RawStr,
+    }
+
+    // impl_from_uri_param_identity!(UserDetails)
+
+    // impl<P: UriPart, 'a> FromUriParam<P, &'a str> for UserDetails<'a> {
+    //     type Target = &'a str;
+
+    //     // fn from_uri_param() {
+    //     //     //
+    //     // }
+    // }
+    // impl<P: UriPart, 'a> FromUriParam<P, &'a str> for String { .. }
+
+    #[get("/person/<id>?<details>")]
+    pub fn person(id: usize, details: Option<Form<UserDetails>>) -> String {
+        format!("id={}, age={}", id.to_string(), details.unwrap().age.unwrap().to_string())
+    }
 }
 
 fn main() {
@@ -158,7 +199,7 @@ fn main() {
         .mount("/responder", routes![responder::index])
         .mount("/task", routes![task::id])
         .mount("/template", routes![template::index])
-        .mount("/uri", routes![url::person, url::list])
+        .mount("/uri", routes![uri::person, uri::list, uri::add_user])
         .launch();
 }
 
