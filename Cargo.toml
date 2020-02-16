@@ -50,3 +50,6 @@ path = "src/slices.rs"
 [[bin]]
 name = "hello-rocket"
 path = "src/hello-rocket.rs"
+[[bin]]
+name = "rocket-requests"
+path = "src/rocket-requests.rs"
