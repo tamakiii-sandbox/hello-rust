@@ -5,6 +5,10 @@
 extern crate rocket;
 
 use rocket::http::RawStr;
+use rocket::response::NamedFile;
+use std::path::{Path, PathBuf};
+
+const DIR_ROOT: &'static str = "/workspaces/hello-rust";
 
 #[get("/hello/<name>")]
 fn index(name: &RawStr) -> String {
@@ -20,8 +24,18 @@ fn hello(name: String, age: u8, cool: bool) -> String {
     }
 }
 
+#[get("/pages/<path..>")]
+fn pages(path: PathBuf) -> String {
+    format!("page: {:?}", path)
+}
+
+#[get("/files/<file..>")]
+fn files(file: PathBuf) -> Option<NamedFile> {
+    NamedFile::open(Path::new(DIR_ROOT).join(file)).ok()
+}
+
 fn main() {
     rocket::ignite()
-        .mount("/", routes![index, hello])
+        .mount("/", routes![index, hello, pages, files])
         .launch();
 }
