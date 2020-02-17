@@ -164,44 +164,57 @@ mod uri {
     }
 }
 
-// mod typed_uri {
-//     use std::fmt;
-//     use rocket::http::RawStr;
-//     use rocket::http::uri::{Formatter, UriDisplay, FromUriParam, UriPart};
-//     use rocket::request::Form;
+mod typed_uri {
+    use std::fmt;
+    use rocket::http::RawStr;
+    use rocket::http::uri::{Formatter, UriDisplay, FromUriParam, Query};
+    use rocket::request::Form;
 
-//     #[derive(FromForm)]
-//     struct User<'a> {
-//         name: &'a RawStr,
-//         nickname: String,
-//     }
+    #[derive(FromForm)]
+    pub struct User<'a> {
+        name: &'a RawStr,
+        nickname: String,
+    }
 
-//     impl<'a, P: UriPart> UriDisplay<P> for User<'a> {
-//         fn fmt(&self, f: &mut Formatter<P>) -> fmt::Result {
-//             f.write_named_value("name", &self.name)?;
-//             f.write_named_value("nickname", &self.nickname)
-//         }
-//     }
+    impl<'a> UriDisplay<Query> for User<'a> {
+        fn fmt(&self, f: &mut Formatter<Query>) -> fmt::Result {
+            f.write_named_value("name", &self.name)?;
+            f.write_named_value("nickname", &self.nickname)
+        }
+    }
 
-//     impl<'a, 'b, P: UriPart> FromUriParam<&'a str, &'b str> for User<'a> {
-//         type Target = User<'a>;
+    impl<'a, 'b> FromUriParam<Query, (&'a str, &'b str)> for User<'a> {
+        type Target = User<'a>;
 
-//         fn from_uri_param((name, nickname): (&'a str, &'b str)) -> User<'a> {
-//             User { name: name.into(), nickname: nickname.to_string() }
-//         }
-//     }
+        fn from_uri_param((name, nickname): (&'a str, &'b str)) -> User<'a> {
+            User { name: name.into(), nickname: nickname.to_string() }
+        }
+    }
 
+    #[post("/<name>?<user..>")]
+    pub fn person(name: &RawStr, user: Form<User>) -> String {
+        format!(
+            "name={}, name={}, nickname={}",
+            name.to_string(),
+            user.name.to_string(),
+            user.nickname,
+        )
+    }
 
-//     #[get("/person/<id>?<user>")]
-//     pub fn person(id: usize, user: Option<Form<User>>) -> String {
-//         format!(
-//             "id={}, name={}, nickname={}",
-//             id.to_string(),
-//             user.unwrap().name.to_string(),
-//             user.unwrap().nickname,
-//         )
-//     }
-// }
+    #[get("/list")]
+    pub fn list() -> String {
+        let uri = uri!(person: name = "hey", user = ("Robert Mike", "Bob"));
+
+        format!(
+            "uri.path={}, uri.query={}",
+            uri.path(),
+            match uri.query() {
+                Some(q) => q,
+                None => "?",
+            },
+        )
+    }
+}
 
 fn main() {
     rocket::ignite()
@@ -212,6 +225,7 @@ fn main() {
         .mount("/task", routes![task::id])
         .mount("/template", routes![template::index])
         .mount("/uri", routes![uri::person, uri::list, uri::add_user])
+        .mount("/typed_uri", routes![typed_uri::person, typed_uri::list])
         .launch();
 }
 
