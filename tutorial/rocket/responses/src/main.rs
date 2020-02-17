@@ -164,32 +164,44 @@ mod uri {
     }
 }
 
-mod typed_uri {
-    use rocket::http::RawStr;
-    use rocket::http::uri::{FromUriParam, UriPart};
-    use rocket::request::Form;
+// mod typed_uri {
+//     use std::fmt;
+//     use rocket::http::RawStr;
+//     use rocket::http::uri::{Formatter, UriDisplay, FromUriParam, UriPart};
+//     use rocket::request::Form;
 
-    pub struct UserDetails<'r> {
-        age: Option<usize>,
-        nickname: &'r RawStr,
-    }
+//     #[derive(FromForm)]
+//     struct User<'a> {
+//         name: &'a RawStr,
+//         nickname: String,
+//     }
 
-    // impl_from_uri_param_identity!(UserDetails)
+//     impl<'a, P: UriPart> UriDisplay<P> for User<'a> {
+//         fn fmt(&self, f: &mut Formatter<P>) -> fmt::Result {
+//             f.write_named_value("name", &self.name)?;
+//             f.write_named_value("nickname", &self.nickname)
+//         }
+//     }
 
-    // impl<P: UriPart, 'a> FromUriParam<P, &'a str> for UserDetails<'a> {
-    //     type Target = &'a str;
+//     impl<'a, 'b, P: UriPart> FromUriParam<&'a str, &'b str> for User<'a> {
+//         type Target = User<'a>;
 
-    //     // fn from_uri_param() {
-    //     //     //
-    //     // }
-    // }
-    // impl<P: UriPart, 'a> FromUriParam<P, &'a str> for String { .. }
+//         fn from_uri_param((name, nickname): (&'a str, &'b str)) -> User<'a> {
+//             User { name: name.into(), nickname: nickname.to_string() }
+//         }
+//     }
 
-    #[get("/person/<id>?<details>")]
-    pub fn person(id: usize, details: Option<Form<UserDetails>>) -> String {
-        format!("id={}, age={}", id.to_string(), details.unwrap().age.unwrap().to_string())
-    }
-}
+
+//     #[get("/person/<id>?<user>")]
+//     pub fn person(id: usize, user: Option<Form<User>>) -> String {
+//         format!(
+//             "id={}, name={}, nickname={}",
+//             id.to_string(),
+//             user.unwrap().name.to_string(),
+//             user.unwrap().nickname,
+//         )
+//     }
+// }
 
 fn main() {
     rocket::ignite()
