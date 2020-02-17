@@ -17,13 +17,18 @@ RUN apt update && apt install -y --no-install-recommends \
     apt clean && \
     rm -rf /var/lib/apt/lists/*
 
-RUN cargo install cargo-edit cargo-inspect cargo-rls-install && \
-    cargo install --no-default-features --features ci-autoclean cargo-cache
-
 # https://rust-lang.github.io/rustup-components-history/
 RUN rustup toolchain add nightly-2020-02-14 && \
-    rustup default nightly-2020-02-14 && \
-    rustup component add \
+    rustup default nightly-2020-02-14
+
+RUN cargo install \
+      cargo-edit \
+      cargo-inspect \
+      cargo-rls-install \
+      && \
+    cargo install --no-default-features --features ci-autoclean cargo-cache
+
+RUN rustup component add \
       rustfmt  \
       rust-analysis \
       rust-src \
