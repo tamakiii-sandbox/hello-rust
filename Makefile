@@ -1,7 +1,7 @@
 .PHONY: install run fmt clean
 
 install:
-	cargo install --path .
+	cargo $@ --path .
 
 build:
 	cargo $@

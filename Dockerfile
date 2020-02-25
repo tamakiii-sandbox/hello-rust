@@ -1,33 +1,37 @@
-FROM rust:1.41.0-alpine3.11 AS production-pseudo
+FROM rust:1.41.0 AS production-pseudo
 
-RUN apk add --no-cache make bash && \
-    sed -i -e 's|/bin/ash|/bin/bash|' /etc/passwd
+RUN apt update && apt install -y --no-install-recommends make less && \
+    apt clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # --
 
 FROM production-pseudo AS development
 
-ENV PAGER=less
-ENV RUSTFLAGS -C target-feature=-crt-static
-
-RUN apk add --no-cache \
+RUN apt update && apt install -y --no-install-recommends \
       git \
-      bash-doc \
-      bash-completion \
-      openssl-dev \
-      man \
-      man-pages \
-      coreutils-doc \
-      cargo-doc \
-      rust-doc \
+      rust-lldb \
+      gdb \
+      libclang-dev \
       && \
-    rustup component add rustfmt
+    apt clean && \
+    rm -rf /var/lib/apt/lists/*
 
-RUN mkdir -p ~/.local/share/bash-completion/completions && \
-    rustup completions bash >> ~/.local/share/bash-completion/completions/rustup && \
-    rustup toolchain add nightly && \
-    rustup component add rust-analysis && \
-    rustup component add rust-src && \
-    rustup component add rls
+# https://rust-lang.github.io/rustup-components-history/
+RUN rustup toolchain add nightly-2020-02-14 && \
+    rustup default nightly-2020-02-14
 
-RUN cargo install cargo-edit
+RUN cargo install \
+      cargo-edit \
+      cargo-inspect \
+      cargo-rls-install \
+      && \
+    cargo install --no-default-features --features ci-autoclean cargo-cache
+
+RUN rustup component add \
+      rustfmt  \
+      rust-analysis \
+      rust-src \
+      rls \
+      && \
+    cargo cache --autoclean

@@ -7,4 +7,49 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+hyper = "0.13.2"
+reroute = "0.4.1"
+tokio = { version = "0.2.11", features = ["full"] }
+pretty_env_logger = "0.4.0"
 rand = "0.7.3"
+rocket = "0.4.2"
+rocket_contrib = "0.4.2"
+serde = { version = "1.0.104", features = ["derive"] }
+serde_json = "1.0.48"
+
+# bins
+
+# [[bin]]
+# name = "rand"
+# path = "src/rand.rs"
+
+# [[bin]]
+# name = "variables"
+# path = "src/variables.rs"
+
+# [[bin]]
+# name = "functions"
+# path = "src/functions.rs"
+
+# [[bin]]
+# name = "branches"
+# path = "src/branches.rs"
+
+# [[bin]]
+# name = "ownership"
+# path = "src/ownership.rs"
+
+# [[bin]]
+# name = "ref-and-borrow"
+# path = "src/ref-and-borrow.rs"
+
+# [[bin]]
+# name = "slices"
+# path = "src/slices.rs"
+
+# [[bin]]
+# name = "hello-rocket"
+# path = "src/hello-rocket.rs"
+# [[bin]]
+# name = "rocket-requests"
+# path = "src/rocket-requests.rs"
