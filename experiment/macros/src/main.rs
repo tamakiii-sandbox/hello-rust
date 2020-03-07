@@ -1,3 +1,5 @@
+// use macros::hoge;
+
 macro_rules! myvec {
     ( $( $x:expr ),* ) => {
         {
@@ -19,6 +21,11 @@ macro_rules! foo {
     (y => $e:expr) => {
         println!("mode Y: {}", $e);
     };
+}
+
+#[macros::hoge]
+fn hello() {
+    println!("hoge");
 }
 
 fn main() {
