@@ -20,8 +20,7 @@
 		"rust-lang.rust",
 		"vadimcn.vscode-lldb",
 		"panicbit.cargo",
-		"cargo-inspect-vscode.cargo-inspect",
-		"bungcip.better-toml"
+		"bungcip.better-toml",
 	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
